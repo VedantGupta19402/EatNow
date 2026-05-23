@@ -1,7 +1,7 @@
 const foodpartnerModel=require("../models/foodPartner.model.js")
 const jwt =require("jsonwebtoken")
-async function authmiddleware(req,res,next){
-    const token=req.cookie.token;
+async function authfoodpartnermiddleware(req,res,next){
+    const token=req.cookies.token;
     if(!token){
         return res.status(401).json({
             message:"unauthorized:no token found"
@@ -16,4 +16,8 @@ async function authmiddleware(req,res,next){
     catch (error) {
        console.log(error) 
     }
+}
+module.exports={
+    authfoodpartnermiddleware,
+    
 }
