@@ -4,8 +4,7 @@ import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
-
-export default function UserLogin() {
+const UserLogin=()=>{
   return (
     <AuthLayout
       variant="user"
@@ -18,7 +17,7 @@ export default function UserLogin() {
             <div className="text-2xl font-extrabold tracking-tight text-slate-900">Sign in</div>
           </div>
 
-          <div className="mt-6 space-y-5">
+          <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
             <InputField
               label="Email"
               name="email"
@@ -63,7 +62,7 @@ export default function UserLogin() {
               </Link>
             </div>
 
-            <PrimaryButton>Continue</PrimaryButton>
+            <PrimaryButton type="submit">Continue</PrimaryButton>
 
             <div className="pt-1 text-sm text-slate-600">
               New here?{' '}
@@ -71,10 +70,11 @@ export default function UserLogin() {
                 Create your account
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </AuthCard>
     </AuthLayout>
   )
 }
+export default UserLogin
 

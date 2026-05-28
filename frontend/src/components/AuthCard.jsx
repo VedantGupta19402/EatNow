@@ -1,4 +1,4 @@
-export default function AuthCard({ children, className = '' }) {
+const AuthCard=({ children, className = '' })=>{
   return (
     <section
       className={[
@@ -11,4 +11,5 @@ export default function AuthCard({ children, className = '' }) {
     </section>
   )
 }
+export default AuthCard
 

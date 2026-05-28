@@ -1,4 +1,4 @@
-function BrandMark({ variant }) {
+const BrandMark=({ variant })=>{
   return (
     <div className="inline-flex items-center gap-3">
       <div
@@ -30,7 +30,7 @@ function BrandMark({ variant }) {
   )
 }
 
-function BrandIllustration({ variant }) {
+const BrandIllustration=({ variant })=>{
   const start = variant === 'partner' ? '#f97316' : '#ef4444'
   const end = '#f59e0b'
   return (
@@ -72,7 +72,7 @@ function BrandIllustration({ variant }) {
   )
 }
 
-export default function AuthLayout({ variant = 'user', headline, description, children }) {
+const AuthLayout=({ variant = 'user', headline, description, children })=>{
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
       <div className="relative overflow-hidden">
@@ -105,4 +105,5 @@ export default function AuthLayout({ variant = 'user', headline, description, ch
     </div>
   )
 }
+export default AuthLayout
 

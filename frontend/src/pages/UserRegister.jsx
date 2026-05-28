@@ -3,9 +3,25 @@ import { Eye } from 'lucide-react'
 import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
-import PrimaryButton from '../components/PrimaryButton'
-
-export default function UserRegister() {
+import PrimaryButton from '../components/PrimaryButton';
+import axios from "axios"; 
+const UserRegister=()=>{
+  const onsubmit=async(e)=>{
+    e.preventDefault();
+    const fullname=e.target.fullName.value;
+    const email=e.target.email.value;
+    const password=e.target.password.value;
+   try {
+     const res = await axios.post("http://localhost:4000/api/auth/user/register",{
+        fullname,
+        email,
+        password 
+      })
+      console.log(res.data)
+    } catch(err) {
+      console.log(err.response?.data || err.message)
+    }  
+  }
   return (
     <AuthLayout
       variant="user"
@@ -20,7 +36,7 @@ export default function UserRegister() {
             </div>
           </div>
 
-          <div className="mt-6 space-y-5">
+          <form className="mt-6 space-y-5" onSubmit={onsubmit}>
             <InputField label="Full Name" name="fullName" placeholder="John Doe" autoComplete="name" required />
             <InputField
               label="Email"
@@ -49,7 +65,7 @@ export default function UserRegister() {
             />
            
 
-            <PrimaryButton className="mt-2">Create account</PrimaryButton>
+            <PrimaryButton type="submit" className="mt-2">Create account</PrimaryButton>
 
             <div className="pt-1 text-sm text-slate-600">
               Already have an account?{' '}
@@ -57,10 +73,10 @@ export default function UserRegister() {
                 Log in
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </AuthCard>
     </AuthLayout>
   )
 }
-
+export default UserRegister 

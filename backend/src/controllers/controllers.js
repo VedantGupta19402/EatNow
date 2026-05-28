@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const foodpartnerModel = require("../models/foodPartner.model.js");
 //register user
 async function registerUser(req, res) {
-  const { fullname, email, password } = req.body;
+  const { fullname, email, password} = req.body;
   const isuserAlreadyexits = await userModel.findOne({ email });
   if (isuserAlreadyexits) {
     return res.status(400).json({
@@ -76,7 +76,7 @@ function logoutUser(req, res) {
 }
 //FOOD PARTNER
 async function foodpartnerregister(req, res) {
-  const { fullname, email, password } = req.body;
+  const { fullname, email, password,phone,address,restaurantName } = req.body;
   const isfoodpartnerAlreadyexits = await foodpartnerModel.findOne({email});
   if (isfoodpartnerAlreadyexits) {
     return res.status(201).json({
@@ -88,6 +88,9 @@ async function foodpartnerregister(req, res) {
     fullname,
     email,
     password: hashedPassword,
+    phone,
+    address,
+    restaurantName,
   });
   //food partner register token
   const token = jwt.sign(
@@ -103,6 +106,9 @@ async function foodpartnerregister(req, res) {
       id: foodpartner._id,
       email: foodpartner.email,
       fullname: foodpartner.fullname,
+      phone:foodpartner.phone,
+      address:foodpartner.address,
+      restaurantName:foodpartner.restaurantName,
     },
   });
 }

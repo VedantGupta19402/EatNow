@@ -5,7 +5,7 @@ import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
 
-export default function FoodPartnerLogin() {
+const FoodPartnerLogin=()=>{
   return (
     <AuthLayout
       variant="partner"
@@ -18,7 +18,7 @@ export default function FoodPartnerLogin() {
             <div className="text-2xl font-extrabold tracking-tight text-slate-900">Restaurant login</div>
           </div>
 
-          <div className="mt-6 space-y-5">
+          <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
             <InputField
               label="Restaurant Email"
               name="restaurantEmail"
@@ -74,10 +74,11 @@ export default function FoodPartnerLogin() {
                 Create a restaurant account
               </Link>
             </div>
-          </div>
+          </form>
         </div>
       </AuthCard>
     </AuthLayout>
   )
 }
+export default FoodPartnerLogin
 

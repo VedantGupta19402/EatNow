@@ -12,7 +12,20 @@ unique:true
     password:{
 type:String,
 minlength:6,
-    }},
+    },
+address:{
+type:String,
+required:true,
+},
+phone:{
+type:String,
+required:true,
+},
+restaurantName:{
+type:String,
+required:true,
+}, 
+},
    {
     timestamps:true
 },
