@@ -1,5 +1,5 @@
-export default function PrimaryButton({
-  children,
+export default  function PrimaryButton({
+  children, 
   type = 'button',
   className = '',
   disabled = false,

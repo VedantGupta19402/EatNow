@@ -1,11 +1,30 @@
 import { Link } from 'react-router-dom'
+import React from 'react'
 import { Eye } from 'lucide-react'
 import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
-
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 const FoodPartnerLogin=()=>{
+  const navigate=useNavigate()
+  const onhandlesubmit=async(e)=>{
+    e.preventDefault()
+    const email=e.target.email.value
+    const password=e.target.password.value
+    try{
+      const res=await axios.post('http://localhost:4000/api/auth/foodpartner/login',
+        {email,password},{
+          withCredentials:true
+        })
+      console.log(res.data)
+    }
+    catch(error){
+      console.log(error)
+    }
+    navigate("/createfood")
+  }
   return (
     <AuthLayout
       variant="partner"
@@ -18,10 +37,10 @@ const FoodPartnerLogin=()=>{
             <div className="text-2xl font-extrabold tracking-tight text-slate-900">Restaurant login</div>
           </div>
 
-          <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-6 space-y-5" onSubmit={onhandlesubmit}>
             <InputField
               label="Restaurant Email"
-              name="restaurantEmail"
+              name="email"
               type="email"
               placeholder="partner@restaurant.com"
               autoComplete="email"
@@ -63,7 +82,7 @@ const FoodPartnerLogin=()=>{
               </Link>
             </div>
 
-            <PrimaryButton>Continue</PrimaryButton>
+            <PrimaryButton type='submit'>Continue</PrimaryButton>
 
             <div className="pt-1 text-sm text-slate-600">
               New partner?{' '}

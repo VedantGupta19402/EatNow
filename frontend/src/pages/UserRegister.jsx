@@ -5,7 +5,9 @@ import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton';
 import axios from "axios"; 
+import { useNavigate } from 'react-router-dom';
 const UserRegister=()=>{
+  const navigate=useNavigate();
   const onsubmit=async(e)=>{
     e.preventDefault();
     const fullname=e.target.fullName.value;
@@ -16,11 +18,14 @@ const UserRegister=()=>{
         fullname,
         email,
         password 
+      },{
+        withCredentials:true
       })
       console.log(res.data)
     } catch(err) {
       console.log(err.response?.data || err.message)
     }  
+    navigate("/")
   }
   return (
     <AuthLayout

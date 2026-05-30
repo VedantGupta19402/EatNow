@@ -1,10 +1,28 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye } from 'lucide-react'
 import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
-const UserLogin=()=>{
+import axios from 'axios'
+const UserLogin = () => {
+  const navigate=useNavigate();
+  const handlesubmit = async (e) => {
+    e.preventDefault()
+    const email = e.target.email.value
+    const password = e.target.password.value
+    try {
+      const res=await axios.post('http://localhost:4000/api/auth/user/login',
+        {email,password},
+        {withCredentials:true}
+        )
+      console.log(res.data)
+    }   
+    catch (error) {
+      console.log(error)
+    }
+    navigate("/")
+  }
   return (
     <AuthLayout
       variant="user"
@@ -17,7 +35,7 @@ const UserLogin=()=>{
             <div className="text-2xl font-extrabold tracking-tight text-slate-900">Sign in</div>
           </div>
 
-          <form className="mt-6 space-y-5" onSubmit={(e) => e.preventDefault()}>
+          <form className="mt-6 space-y-5" onSubmit={(e) => handlesubmit(e)}>
             <InputField
               label="Email"
               name="email"
