@@ -16,7 +16,7 @@ async function createfood(req, res) {
   });
 }
 async function getfoodItems(req,res) {
-   const foodItem=await foodModel.find()
+   const foodItem=await foodModel.find().populate("foodpartner")
    if(!foodItem){
     return res.status(404).json({
         message:"food item not found"

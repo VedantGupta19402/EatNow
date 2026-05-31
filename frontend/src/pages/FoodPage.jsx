@@ -3,7 +3,7 @@ import React from 'react'
 const FoodPage = () => {
   return (
     <div>
-      
+
     </div>
   )
 }

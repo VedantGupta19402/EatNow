@@ -7,8 +7,8 @@ import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
 import axios from 'axios'
 const FoodPartnerRegister=()=>{
+  const navigate=useNavigate()
   const onhandlesubmit=async (e)=>{
-    const navigate=useNavigate()
 e.preventDefault()
   const restaurantName=e.target.restaurantName.value
   const fullname=e.target.fullname.value
