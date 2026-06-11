@@ -24,7 +24,7 @@ const MOCK_FOOD_ITEMS = [
   {
     _id: "mock-1",
     name: "Sizzling Gourmet Veg Stir Fry",
-    video: "https://assets.mixkit.co/videos/preview/mixkit-frying-diced-vegetables-in-a-pan-40542-large.mp4",
+    video: "https://ik.imagekit.io/nbgi9yh0b/0f6ef6d9-1958-486f-9257-a74b8a88ab1d_7yKMuElfd",
     description: "Watch our master chefs toss fresh organic bell peppers, broccoli, and hand-cut baby corn in a sizzling wok with house-special garlic-ginger dark soy sauce. Served piping hot with toasted sesame seeds and fresh scallions.",
     likesCount: 1420,
     commentsCount: 89,
@@ -303,7 +303,7 @@ const Mainpage = () => {
                 muted={isMuted}
                 playsInline
                 preload="auto"
-                className="w-full h-full object-cover pointer-events-none"
+                className="w-full h-full object-contain pointer-events-none"
               />
 
               {/* Glassmorphic TOP Header Overlay - Contains Description and Visit Store */}
