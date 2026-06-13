@@ -99,9 +99,15 @@ async function foodpartnerregister(req, res) {
     },
     process.env.JWT_SECRET,
   );
-  res.cookie("foodpartnerToken", token);
+  res.cookie("foodpartnerToken", token, {
+    httpOnly: true,
+    sameSite: 'none',
+    secure: false,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
   res.status(201).json({
     message: "food partner registered  succesfully",
+    token,
     foodpartner: {
       id: foodpartner._id,
       email: foodpartner.email,
@@ -117,13 +123,13 @@ async function foodpartnerlogin(req,res) {
     const{fullname,email,password}=req.body 
     const foodpartner=await foodpartnerModel.findOne({email})
     if(!foodpartner){
-        return res.status(201).json({
-            message:"invaild id or password"
+        return res.status(401).json({
+            message:"invalid id or password"
         })}
-        const isPasswordMatch=bcrypt.compare(password,foodpartner.password)
+        const isPasswordMatch=await bcrypt.compare(password,foodpartner.password)
         if(!isPasswordMatch){
-            return res.status(201).json({
-                message:"invaild id or password"
+            return res.status(401).json({
+                message:"invalid id or password"
             })
         }
  //foodpartner login token
@@ -131,9 +137,15 @@ async function foodpartnerlogin(req,res) {
             {
 id:foodpartner._id
         },process.env.JWT_SECRET)
-        res.cookie("foodpartnerToken",token)
+        res.cookie("foodpartnerToken", token, {
+          httpOnly: true,
+          sameSite: 'none',
+          secure: false,
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
         res.status(201).json({
-            message: "food partner logged in succesfully",  
+            message: "food partner logged in succesfully",
+            token,
             foodpartner: {
               id: foodpartner._id,
               email: foodpartner.email,

@@ -10,6 +10,9 @@ export default function InputField({
   inputMode,
   autoFocus = false,
   rightElement,
+  value,
+  onChange,
+  ...props
 }) {
   const reactId = useId()
   const inputId = `${name || 'field'}-${reactId}`
@@ -36,6 +39,9 @@ export default function InputField({
           required={required}
           inputMode={inputMode}
           autoFocus={autoFocus}
+          value={value}
+          onChange={onChange}
+          {...props}
           className={[
             'w-full rounded-xl border bg-white/70 backdrop-blur',
             'border-slate-200/80 hover:border-slate-300/90',

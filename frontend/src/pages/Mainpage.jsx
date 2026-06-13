@@ -122,7 +122,7 @@ const Mainpage = () => {
   const [isMuted, setIsMuted] = useState(true)
   const [likes, setLikes] = useState({})
   const [addedItems, setAddedItems] = useState({})
-  const [activeVideoId, setActiveVideoId] = useState("")
+   const [activeVideoId, setActiveVideoId] = useState("")
 
   const videoRefs = useRef({})
   const containerRef = useRef(null)

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Film, UploadCloud, CheckCircle } from 'lucide-react'
+import { ArrowLeft, UploadCloud } from 'lucide-react'
 import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
@@ -9,6 +9,8 @@ import axios from 'axios'
 
 const CreateFood = () => {
   const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
   const [videoFile, setVideoFile] = useState(null)
   const [videoPreview, setVideoPreview] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -29,27 +31,40 @@ const CreateFood = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!videoFile) {
+    if (!name.trim() || !description.trim()) {
+      setStatusMsg({
+        type: 'error',
+        text: 'Please provide both a dish name and description.',
+      })
+      return
+    }
+    if(!videoFile){
       setStatusMsg({ type: 'error', text: 'Please upload a video file of your dish.' })
       return
     }
-
-    const name = e.target.foodName.value
-    const description = e.target.description.value
-
     const formData = new FormData()
-    formData.append('name', name)
-    formData.append('description', description)
+    formData.append('name', name.trim())
+    formData.append('description', description.trim())
     formData.append('video', videoFile)
+    const token = localStorage.getItem('foodpartnerToken')
+    if (!token) {
+      setStatusMsg({
+        type: 'error',
+        text: 'No auth token found. Please log in again as a food partner.',
+      })
+      return
+    }
 
     setLoading(true)
     setStatusMsg({ type: 'info', text: 'Uploading gourmet video and creating dish...' })
 
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    }
+
     try {
       const res = await axios.post('http://localhost:4000/api/food', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers,
         withCredentials: true,
       })
 
@@ -105,13 +120,14 @@ const CreateFood = () => {
               {statusMsg.text}
             </div>
           )}
-
           <form className="space-y-5" onSubmit={handleSubmit}>
             <InputField
               label="Dish Name"
               name="foodName"
               placeholder="e.g., Spicy Szechuan Noodles"
               required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
 
             <div className="space-y-2">
@@ -121,6 +137,8 @@ const CreateFood = () => {
               </label>
               <textarea
                 name="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your mouthwatering recipe, its ingredients, and special preparation..."
                 rows="3"
                 required

@@ -1,30 +1,43 @@
-import { Link } from 'react-router-dom'
-import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 import { Eye } from 'lucide-react'
 import AuthLayout from '../components/AuthLayout'
 import AuthCard from '../components/AuthCard'
 import InputField from '../components/InputField'
 import PrimaryButton from '../components/PrimaryButton'
 import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
-const FoodPartnerLogin=()=>{
-  const navigate=useNavigate()
-  const onhandlesubmit=async(e)=>{
+
+const FoodPartnerLogin = () => {
+  const navigate = useNavigate()
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const onhandlesubmit = async (e) => {
     e.preventDefault()
-    const email=e.target.email.value
-    const password=e.target.password.value
-    try{
-      const res=await axios.post('http://localhost:4000/api/auth/foodpartner/login',
-        {email,password},{
-          withCredentials:true
-        })
-      console.log(res.data)
+    setError('')
+    const email = e.target.email.value
+    const password = e.target.password.value
+    setLoading(true)
+    try {
+      const res = await axios.post(
+        'http://localhost:4000/api/auth/foodpartner/login',
+        { email, password },
+        { withCredentials: true }
+      )
+      if (res.data?.token) {
+        localStorage.setItem('foodpartnerToken', res.data.token)
+        navigate('/createfood')
+      } else {
+        setError('Login failed. No token received.')
+      }
+    } catch (err) {
+      const msg = err.response?.data?.message || 'Invalid email or password.'
+      setError(msg)
+    } finally {
+      setLoading(false)
     }
-    catch(error){
-      console.log(error)
-    }
-    navigate("/createfood")
   }
+
   return (
     <AuthLayout
       variant="partner"
@@ -36,6 +49,12 @@ const FoodPartnerLogin=()=>{
           <div className="flex items-center justify-between gap-4">
             <div className="text-2xl font-extrabold tracking-tight text-slate-900">Restaurant login</div>
           </div>
+
+          {error && (
+            <div className="mt-4 p-3 rounded-xl border bg-rose-50 border-rose-200 text-rose-700 text-sm font-medium">
+              {error}
+            </div>
+          )}
 
           <form className="mt-6 space-y-5" onSubmit={onhandlesubmit}>
             <InputField
@@ -75,14 +94,16 @@ const FoodPartnerLogin=()=>{
               </label>
 
               <Link
-                to="/foodpartner/login"
+                to="/foodpartner/forgot-password"
                 className="text-sm font-semibold text-slate-700 hover:text-orange-700 transition focus:outline-none focus:ring-4 focus:ring-orange-500/15 rounded"
               >
                 Forgot password?
               </Link>
             </div>
 
-            <PrimaryButton type='submit'>Continue</PrimaryButton>
+            <PrimaryButton type="submit" disabled={loading}>
+              {loading ? 'Logging in...' : 'Continue'}
+            </PrimaryButton>
 
             <div className="pt-1 text-sm text-slate-600">
               New partner?{' '}
@@ -99,5 +120,5 @@ const FoodPartnerLogin=()=>{
     </AuthLayout>
   )
 }
-export default FoodPartnerLogin
 
+export default FoodPartnerLogin

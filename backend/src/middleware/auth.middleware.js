@@ -3,7 +3,13 @@ const foodModel=require("../models/food.model.js")
 const jwt =require("jsonwebtoken");
 const userModel = require("../models/user.model.js");
 async function authfoodpartnermiddleware(req,res,next){
-    const token=req.cookies.foodpartnerToken;
+    let token = req.cookies.foodpartnerToken;
+    if(!token){
+      const authHeader = req.headers.authorization || '';
+      if (authHeader.startsWith('Bearer ')) {
+        token = authHeader.slice(7);
+      }
+    }
     if(!token){
         return res.status(401).json({
             message:"unauthorized:no token found"
@@ -21,7 +27,10 @@ async function authfoodpartnermiddleware(req,res,next){
         next()
     } 
     catch (error) {
-       console.log(error) 
+       console.log(error)
+       return res.status(401).json({
+         message: "unauthorized:invalid token"
+       })
     }
 }
 async function authusermiddleware(req,res,next){
